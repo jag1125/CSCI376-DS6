@@ -6,10 +6,10 @@
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "img/cat16.png",
-        "32": "img/cat32.png",
-        "48": "img/cat48.png",
-        "128": "img/cat128.png"
+        "16": "",
+        "32": "",
+        "48": "",
+        "128": ""
         }
     },
     "content_scripts": [
