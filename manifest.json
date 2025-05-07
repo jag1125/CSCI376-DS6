@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "Wugyy",
+    "description": "The virtual pet that rewards you for not being lazy.",
+    "version": "1.0",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        }
+    },
+    "content_scripts": [
+        {
+          "js": ["scripts/content.js"],
+          "matches": ["<all_urls>"]
+        }
+      ]
+  }
