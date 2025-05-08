@@ -8,9 +8,22 @@
         <div id="age" style = "text-align: center; font-family: 'Gill Sans'" > My pet's age is </div>
         <div id="taskcount" style = "text-align: center; font-family:'Gill Sans'" > Complete __ more tasks to grow!</div>
     </div>
-    <div style = "height: 250px";></div>
-    <div id="canvascount" style = "text-align: center; font-size: 18; font-family: 'Gill Sans'">You completed __ tasks in Canvas!</div>
-    <div id="gcalcount" style = "text-align: center; font-size: 18; font-family:'Gill Sans'">You completed __ tasks in Google Calendar!</div>
+    <div style = "height: 155px";></div>
+    <div class = "tab">
+        <button class="tablinks" onclick="openPage(event, 'Home')" id="defaultOpen">Home</button>
+        <button class="tablinks" onclick="openPage(event, 'Todo List')">Todo List</button>
+        <button class="tablinks" onclick="openPage(event, 'Customize')">Customize</button>
+    </div>
+    
+    <div id="Home" class="tabcontent">
+        <h3>HOME PAGE</h3>
+    </div>
+    <div id="Todo List" class="tabcontent">
+        <h3>TODO LIST PAGE</h3>
+    </div>
+    <div id="Customize" class="tabcontent">
+        <h3>CUSTOMIZE PAGE</h3>
+    </div>
 </body>
 <style>
     h1{
@@ -21,10 +34,25 @@
         text-align: center;
     }
     body{
-        background-image: url(img/ds6background.png);
+        background-image: url(img/ds6background2.png);
         height: 500;
         width: 300;
         background-size: cover;
+    }
+    .tab{
+        overflow: hidden;
+    }
+    .tab button.active{
+        background-color: #ddd;
+    }
+    .tablinks{
+        color: black;
+        float: left;
+        border: none; 
+        outline: none; 
+    }
+    .tablinks:hover{
+        background-color: #777;
     }
     
 </style>
