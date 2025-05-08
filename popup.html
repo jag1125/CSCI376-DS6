@@ -1,9 +1,13 @@
+<head aria-labelledby="productivity pet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <h1>Productivity Pet</h1>
 <p style = "font-family: 'Gill Sans'">Grow your pet by completing tasks!</p>
 <body>
     <div id="firstTimePopup" name="firstTimeOpened">
         <h3 style = "text-align: center; font-family: 'Gill Sans'">Welcome to Productivity Pet!</h3>
-        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 16; margin: 2px">Complete tasks in Canvas or your in-app to do list,
+        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 16; margin: 2px">Complete tasks in Canvas or your in-app to-do list,
             and watch in real time as your pet grows as a result of your productivity!
         </p>
         <input type="text" id="petNameInput" name="petName" placeholder="What's your pet's name?"></input>
@@ -11,11 +15,6 @@
         <button id="closePopup" style="margin: auto; display: block">Got it!</button>
     </div>
     <div style = "height: 250px";></div>
-<<<<<<< HEAD
-    <a href="todolist.html">To do list page</a>
-    <div id="canvascount" style = "text-align: center; font-size: 18; font-family: 'Gill Sans'">You completed __ tasks in Canvas!</div>
-    <div id="gcalcount" style = "text-align: center; font-size: 18; font-family:'Gill Sans'">You completed __ tasks in Google Calendar!</div>
-=======
     <div class = "tab">
         <button class="tablinks" data-page="Home" id="defaultOpen">Home</button>
         <button class="tablinks" data-page="ToDoList">Todo List</button>
@@ -32,11 +31,16 @@
     </div>
     <div id="ToDoList" class="tabcontent">
         <h3>TO-DO LIST PAGE</h3>
+        <div class="form-check input-group-addon chkbox" id="firstdiv">
+            <input class="form-check-input" type="checkbox" value="" id="firstchk" disabled>
+            <p contenteditable="true" class="editable textbox" id="first">Click to add task</p>
+            <button class="btn-close" id="x" aria-label="Close" style="display:none"></button>
+        </div>
+        <p class="tracker" id="addTask">Tasks Completed: 0</p>
     </div>
     <div id="Customize" class="tabcontent">
         <h3>CUSTOMIZE PAGE</h3>
     </div>
->>>>>>> 3e45118e16e7e408c6d6e5ab7c17572f79482ca2
 </body>
 <style>
     h1{
@@ -88,6 +92,40 @@
         outline: none;
         border: 0;
         border-radius: 4px;
+    }
+
+    .hide{
+        display: none;
+    }
+    
+    .chkbox{
+        margin-left: 20px;
+    }
+
+    .textbox{
+        display: inline-block;
+        min-width:200px;
+        max-width: 200px;
+    }
+
+    .editable{
+        text-align: left;
+        font-style: italic;
+        color: gray;
+    }
+
+    .edited{
+        text-align: left;
+        font-style: normal;
+        color: black;
+    }
+
+    h2{
+        text-align: center;
+    }
+
+    .btn-close{
+        margin-left: 5px;
     }
     
 </style>
