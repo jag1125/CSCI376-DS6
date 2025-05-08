@@ -10,7 +10,9 @@
         "32": "img/cat32.png",
         "48": "img/cat48.png",
         "128": "img/cat128.png"
-        }
+
+        },
+        "default_background": "img/ds6background.png"
     },
     "content_scripts": [
         {
