@@ -29,9 +29,14 @@ document.addEventListener('DOMContentLoaded', function (){
                 document.getElementById('name').textContent = "My pet's name is " + petName;
             });
         }
+        chrome.storage.local.set({numTasksCompleted: 0});
     });
-
-    chrome.storage.local.set({numTasksCompleted: 0});
+    
+    chrome.storage.local.get('numTasksCompleted', function (data){
+        if(data.numTasksCompleted){
+            document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        }
+    });
 
     // to-do list data
     // chrome.storage.local.set({numTasksCompleted: 0});
