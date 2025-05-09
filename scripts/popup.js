@@ -11,13 +11,10 @@ document.addEventListener('DOMContentLoaded', function (){
     chrome.storage.local.get('firstTimeOpened', function (data){
         if(data.firstTimeOpened){
             document.getElementById('firstTimePopup').style.display = 'none';
-        } // else {
-        //     chrome.storage.local.set({numTasksCompleted: 0});
-        // }
+        }
     });
     document.getElementById('closePopup').addEventListener('click', function (){
         document.getElementById('firstTimePopup').style.display = 'none';
-        //chrome.storage.local.set({numTasksCompleted: 0});
         chrome.storage.local.set({firstTimeOpened: true});
     });
     chrome.storage.local.get('petName', function (data){
@@ -34,14 +31,14 @@ document.addEventListener('DOMContentLoaded', function (){
         }
     });
 
-    // to-do list data
-    chrome.storage.local.set({ numTasksCompleted: 0 }).then(() =>
-        console.log(chrome.storage.local.get('numTasksCompleted', function(){})));
+    chrome.storage.local.set({numTasksCompleted: 0});
 
+    // to-do list data
+    // chrome.storage.local.set({numTasksCompleted: 0});
     // chrome.storage.local.get('numTasksCompleted', function (data){
-    //     if(numTasksCompleted){
+    //     if(data.numTasksCompleted){
     //         data.numTasksCompleted.toString = function () { return numTasksCompleted };
-    //         document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
+    //         document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
     //     }
     // });
 });
@@ -71,12 +68,16 @@ firstchk.addEventListener('click', function() {
 });
 
 function numChecked() {
+    var text = document.getElementById("ToDoList");
+    var numCompleted = document.querySelectorAll('input[type="checkbox"]:checked').length;
     chrome.storage.local.get('numTasksCompleted', function (data){
-        if(data.numTasksCompleted){
+        //if(data.numTasksCompleted){
             chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted})
-            document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
-        }
+            document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        //}
     });
+    const tracker = text.querySelector('.tracker');
+    tracker.textContent = `Tasks Completed: ${numCompleted}`;
 }
 
 var first = document.getElementById("first");
