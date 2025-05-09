@@ -17,7 +17,7 @@
     <div style = "height: 250px";></div>
     <div class = "tab">
         <button class="tablinks" data-page="Home" id="defaultOpen">Home</button>
-        <button class="tablinks" data-page="ToDoList">Todo List</button>
+        <button class="tablinks" data-page="ToDoList">To-Do List</button>
         <button class="tablinks" data-page="Customize">Customize</button>
     </div>
     
@@ -31,12 +31,15 @@
     </div>
     <div id="ToDoList" class="tabcontent">
         <h3>TO-DO LIST PAGE</h3>
-        <div class="form-check input-group-addon chkbox" id="firstdiv">
-            <input class="form-check-input" type="checkbox" value="" id="firstchk" disabled>
-            <p contenteditable="true" class="editable textbox" id="first">Click to add task</p>
-            <button class="btn-close" id="x" aria-label="Close" style="display:none"></button>
+        <div id="listoutside">
+            <div class="form-check input-group-addon chkbox" id="firstdiv">
+                <input class="form-check-input" type="checkbox" value="" id="firstchk" disabled>
+                <p contenteditable="true" class="editable textbox" id="first">Click to add task</p>
+                <button class="btn-close" id="x" aria-label="Close" style="display:none"></button>
+            </div>
         </div>
         <p class="tracker" id="addTask">Tasks Completed: 0</p>
+        <p id="savedata">filler text</p>
     </div>
     <div id="Customize" class="tabcontent">
         <h3>CUSTOMIZE PAGE</h3>
@@ -100,6 +103,8 @@
     
     .chkbox{
         margin-left: 20px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 
     .textbox{
@@ -126,6 +131,18 @@
 
     .btn-close{
         margin-left: 5px;
+    }
+
+    #listoutside{
+        width: 300px;
+        height: 70px;
+        overflow: scroll;
+    }
+
+    #addTask{
+        text-align: left;
+        margin-left: 10px;
+        margin-bottom: 20px;
     }
     
 </style>
