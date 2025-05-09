@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function (){
     chrome.storage.local.get('firstTimeOpened', function (data){
         if(data.firstTimeOpened){
             document.getElementById('firstTimePopup').style.display = 'none';
-        } else {
-            chrome.storage.local.set({totalNumTasksCompleted: 0});
-            //chrome.storage.local.set({oldNumTasksCompleted: 0});
-        }
+        } // else {
+        //     chrome.storage.local.set({numTasksCompleted: 0});
+        // }
     });
     document.getElementById('closePopup').addEventListener('click', function (){
         document.getElementById('firstTimePopup').style.display = 'none';
+        //chrome.storage.local.set({numTasksCompleted: 0});
         chrome.storage.local.set({firstTimeOpened: true});
     });
     chrome.storage.local.get('petName', function (data){
@@ -35,26 +35,15 @@ document.addEventListener('DOMContentLoaded', function (){
     });
 
     // to-do list data
+    chrome.storage.local.set({ numTasksCompleted: 0 }).then(() =>
+        console.log(chrome.storage.local.get('numTasksCompleted', function(){})));
 
-    // chrome.storage.local.get('totalNumTasksCompleted', function (){
-    //     if(totalNumTasksCompleted){
-    //         document.getElementById('savedata').textContent = "My pet's name is " + totalNumTasksCompleted;
+    // chrome.storage.local.get('numTasksCompleted', function (data){
+    //     if(numTasksCompleted){
+    //         data.numTasksCompleted.toString = function () { return numTasksCompleted };
+    //         document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
     //     }
     // });
-
-    // chrome.storage.local.get('totalNumTasksCompleted').then((result) => {
-    //     data.totalNumTasksCompleted.toString = function () { return totalNumTasksCompleted };
-    //     document.getElementById('savedata').textContent = "Tasks Completed: " + data.totalNumTasksCompleted;
-    // });
-
-
-    chrome.storage.local.get('totalNumTasksCompleted', function (data){
-        if(data.totalNumTasksCompleted){
-            data.totalNumTasksCompleted.toString = function () { return totalNumTasksCompleted };
-            document.getElementById('savedata').textContent = "Tasks Completed: " + data.totalNumTasksCompleted;
-            //chrome.storage.local.set({oldNumTasksCompleted: data.totalNumTasksCompleted});
-        }
-    });
 });
 
 function openPage(evt, pageName){
@@ -82,43 +71,12 @@ firstchk.addEventListener('click', function() {
 });
 
 function numChecked() {
-    var text = document.getElementById("ToDoList");
-    var numCompleted = document.querySelectorAll('input[type="checkbox"]:checked').length;
-
-    // var newNumCompleted;
-    // chrome.storage.local.get('numTasksCompleted', function (data){
-    //     data.numTasksCompleted.toString = function () { return numTasksCompleted };
-    //     newNumCompleted = data.numTasksCompleted + numCompleted;
-    // });
-    // chrome.storage.local.set({numTasksCompleted: newNumCompleted}, function(){
-    //     document.getElementById('savedata').textContent = "Tasks Completed: " + newNumCompleted;
-    // });
-
-    // chrome.storage.local.get('totalNumTasksCompleted').then((result) => {
-    //     result.toString = function () { return result };
-    //     document.getElementById('savedata').textContent = "Tasks Completed: " + result;
-    // });
-
-    // chrome.storage.local.get('totalNumTasksCompleted', function (data){
-    //     if(data.totalNumTasksCompleted){
-    //         chrome.storage.local.set({totalNumTasksCompleted: numCompleted + data.totalNumTasksCompleted})
-    //         document.getElementById('savedata').textContent = "Tasks Completed: " + data.totalNumTasksCompleted;
-    //     }
-    // });
-    // document.getElementById('savedata').textContent = "Tasks Completed: ";
-
-    
-    // chrome.storage.local.get('oldNumTasksCompleted', function (data){
-    //     if(data.oldNumTasksCompleted){
-    //         chrome.storage.local.set({totalNumTasksCompleted: numCompleted + data.oldNumTasksCompleted})
-    //         document.getElementById('savedata').textContent = "Tasks Completed: " + data.totalNumTasksCompleted;
-    //     }
-    // });
-    // chrome.storage.local.set({numTasksCompleted: numCompleted}, function(){
-    //     document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
-    // });
-    const tracker = text.querySelector('.tracker');
-    tracker.textContent = `Tasks Completed: ${numCompleted}`;
+    chrome.storage.local.get('numTasksCompleted', function (data){
+        if(data.numTasksCompleted){
+            chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted})
+            document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        }
+    });
 }
 
 var first = document.getElementById("first");
