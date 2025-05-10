@@ -5,24 +5,22 @@
 <h1>Productivity Pet</h1>
 <p style = "font-family: 'Gill Sans'">Grow your pet by completing tasks!</p>
 <body>
-    <div id="firstTimePopup" name="firstTimeOpened">
-        <h3 style = "text-align: center; font-family: 'Gill Sans'">Welcome to Productivity Pet!</h3>
-        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 16; margin: 2px">Complete tasks in Canvas or your in-app to-do list,
+    <div id="firstTimePopup" name="firstTimeOpened" >
+        <h3 style = "text-align: center; font-family: 'Gill Sans'; font-size: 20">Welcome to Productivity Pet!</h3>
+        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 14; margin: 2px">Complete tasks in Canvas or your in-app to-do list,
             and watch in real time as your pet grows as a result of your productivity!
         </p>
         <input type="text" id="petNameInput" name="petName" placeholder="What's your pet's name?"></input>
         <button id="enterName">Enter</button>
-        <button id="closePopup" style="margin: auto; display: block">Got it!</button>
+        <button id="closePopup" style="margin: auto; display: block; border-radius: 4px">Got it!</button>
     </div>
-    <div style = "height: 250px";></div>
+    <div style="height: 15"></div>
     <div class = "tab">
         <button class="tablinks" data-page="Home" id="defaultOpen">Home</button>
         <button class="tablinks" data-page="ToDoList">To-Do List</button>
         <button class="tablinks" data-page="Customize">Customize</button>
     </div>
-    
     <div id="Home" class="tabcontent">
-        <h3>HOME PAGE</h3>
         <div id="statbox" >
             <div id="name" style = "text-align: center; font-family:'Gill Sans'" > My pet's name is </div>
             <div id="age" style = "text-align: center; font-family: 'Gill Sans'" > My pet's age is </div>
@@ -30,7 +28,6 @@
         </div>
     </div>
     <div id="ToDoList" class="tabcontent">
-        <h3>TO-DO LIST PAGE</h3>
         <div id="listoutside">
             <div class="form-check input-group-addon chkbox" id="firstdiv">
                 <input class="form-check-input" type="checkbox" value="" id="firstchk" disabled>
@@ -55,11 +52,12 @@
     }
     body{
         background-image: url(img/ds6background2.png);
-        height: 500;
+        height: 550;
         width: 300;
         background-size: cover;
     }
     .tab{
+       
         overflow: hidden;
     }
     .tab button.active{
@@ -74,27 +72,33 @@
         height: 7%;
         font-family: 'Gill Sans';
         border-radius: 4px;
+        margin-top: 250px;
     }
     .tablinks:hover{
         background-color: #5DA85A;
     }
     #firstTimePopup{
         position: absolute;
-        
         border-radius: 10px;
+        margin-left: 5%;
         width: 90%;
         height: 40%;
         background-color: white;
         
     }
     #petNameInput{
-        margin: 25px;
+        margin-left: 15px;
+        margin-bottom: 10px;
+        margin-top: 15px;
+        font-size: 14;
+        width: 175px;
     }
     #enterName{
         background-color: #5DA85A;
         outline: none;
         border: 0;
         border-radius: 4px;
+        display: inline-block;
     }
 
     .hide{
@@ -135,7 +139,7 @@
 
     #listoutside{
         width: 300px;
-        height: 70px;
+        height: 100px;
         overflow: scroll;
     }
 
