@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function (){
+    // tab controls
     const tablinks = document.querySelectorAll('.tablinks');
     tablinks.forEach(button =>{
         button.addEventListener('click', function (evt) {
@@ -8,17 +9,18 @@ document.addEventListener('DOMContentLoaded', function (){
     });    
     document.getElementById("defaultOpen").click();
 
+    // first time pop up
     chrome.storage.local.get('firstTimeOpened', function (data){
         if(data.firstTimeOpened){
             document.getElementById('firstTimePopup').style.display = 'none';
-        } else {
-            chrome.storage.local.set({numTasksCompleted: 0});
         }
     });
     document.getElementById('closePopup').addEventListener('click', function (){
         document.getElementById('firstTimePopup').style.display = 'none';
         chrome.storage.local.set({firstTimeOpened: true});
     });
+
+    // setting pet name
     chrome.storage.local.get('petName', function (data){
         if(data.petName){
             document.getElementById('name').textContent = "My pet's name is " + data.petName;
@@ -33,13 +35,18 @@ document.addEventListener('DOMContentLoaded', function (){
         }
     });
     
+    // setting number of tasks completed
     chrome.storage.local.get('numTasksCompleted', function (data){
-        //if(data.numTasksCompleted){
+        if(data.numTasksCompleted){
             document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
             console.log("start: " + data.numTasksCompleted);
-        //}
+        } else {
+            chrome.storage.local.set({numTasksCompleted: 0});
+            document.getElementById('addTask').textContent = "Tasks Completed: 0";
+        }
     });
 
+    // loading in tasks
     chrome.storage.local.get('todotasks', function (data) {
         const array = data.todotasks;
         if (array) {
@@ -49,17 +56,9 @@ document.addEventListener('DOMContentLoaded', function (){
         }
         addTask("Click to add task", false);
     });
-
-    // to-do list data
-    // chrome.storage.local.set({numTasksCompleted: 0});
-    // chrome.storage.local.get('numTasksCompleted', function (data){
-    //     if(data.numTasksCompleted){
-    //         data.numTasksCompleted.toString = function () { return numTasksCompleted };
-    //         document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
-    //     }
-    // });
 });
 
+// open a tab
 function openPage(evt, pageName){
     let i;
     const tabcontent = document.getElementsByClassName("tabcontent")
@@ -76,34 +75,22 @@ function openPage(evt, pageName){
 }
 
 
+// list of tasks
 const tasks = [];
 
+// counts number of completed tasks
 function numChecked() {
     chrome.storage.local.get('numTasksCompleted', function (data){
-        //console.log("fire 1");
         //if(data.numTasksCompleted){
-            //console.log("fire 2");
-            //console.log(data.numTasksCompleted);
-            chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted})
-            .then(() => document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted)
-            //.then(console.log(data.numTasksCompleted));
+            console.log("fire 2");
+            console.log(data.numTasksCompleted);
+            chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted}, function () {
+                document.getElementById('addTask').textContent = "Tasks Completed: " + (1 + data.numTasksCompleted);
+            });
+            // .then(() => document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted)
+            // .then(console.log(data.numTasksCompleted));
         //}
     });
-
-        // try {
-        //   const num = await chrome.storage.local.get('numTasksCompleted');
-        //   num.toString = function () { return num };
-        //   console.log(num.toString);
-        //   await chrome.storage.local.set({numTasksCompleted: num + 1});
-        //   const num2 = await chrome.storage.local.get('numTasksCompleted');
-        //   num2.toString = function () { return num2 };
-        //   console.log(num2)
-        //   num.toString = function () { return numTasksCompleted };
-        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
-        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
-        // } catch(error) {
-        //   console.log(error);
-        // }
 }
 
 // sets up a new task and adds event listeners to the new content
@@ -166,6 +153,7 @@ function addTask(words, edited) {
     div.appendChild(x);
 }
 
+// updates tasks in storage
 function updateTasks() {
     const allTasks = document.querySelectorAll(".edited");
     tasks.length = 0;
@@ -176,14 +164,11 @@ function updateTasks() {
     });
 
     chrome.storage.local.set({todotasks: tasks}, function () {
-        console.log("fire")
-        chrome.storage.local.get('todotasks', function (data) {
-            console.log("in storage:");
-            console.log(data.todotasks);
-        });
+        chrome.storage.local.get('todotasks', function (data) {});
     });
 }
 
+// info button that opens pop up
 document.getElementById("infobutton").addEventListener('click', function (){
     const popup = document.getElementById('firstTimePopup');
     if (popup.style.display === "none") {
@@ -192,3 +177,37 @@ document.getElementById("infobutton").addEventListener('click', function (){
         popup.style.display = "none";
       }
 });
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+      console.log(
+        `Storage key "${key}" in namespace "${namespace}" changed.`,
+        `Old value was "${oldValue}", new value is "${newValue}".`
+      );
+    }
+  });
+
+
+    // to-do list data
+    // chrome.storage.local.set({numTasksCompleted: 0});
+    // chrome.storage.local.get('numTasksCompleted', function (data){
+    //     if(data.numTasksCompleted){
+    //         data.numTasksCompleted.toString = function () { return numTasksCompleted };
+    //         document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+    //     }
+    // });
+
+            // try {
+        //   const num = await chrome.storage.local.get('numTasksCompleted');
+        //   num.toString = function () { return num };
+        //   console.log(num.toString);
+        //   await chrome.storage.local.set({numTasksCompleted: num + 1});
+        //   const num2 = await chrome.storage.local.get('numTasksCompleted');
+        //   num2.toString = function () { return num2 };
+        //   console.log(num2)
+        //   num.toString = function () { return numTasksCompleted };
+        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        // } catch(error) {
+        //   console.log(error);
+        // }
