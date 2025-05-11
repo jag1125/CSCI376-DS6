@@ -1,15 +1,32 @@
-window.addEventListener("load", function(e){
 
-    function checkAssignmentSubmit(){
-        if (!window.location.pathname.includes("/assignments/")) return null;
-        const submitButton = document.getElementsByClassName("submit_assignment_link");
-        if(!submitButton){
-            return null
+    function canvasAssignmentStatus(){
+        let submitButton = null
+        if (window.location.pathname.includes("/assignments/")){
+                function checkAssignmentSubmit(){
+                    const tempButton = document.getElementById("submit_assignment")
+                    if(!tempButton){
+                        return null
+                    }
+                    return tempButton
+                }
+
+                submitButton = checkAssignmentSubmit()
         }
-        return submitButton[0]
+        return submitButton
+    }
+    
+    function canvasRewardStart(){
+        let assignmentButton = canvasAssignmentStatus()
+        console.log(assignmentButton)
+
+        while (canvasAssignmentStatus().checkVisibility){
+            console.log("Waiting for user to submit")
+        }
+
+        console.log("Assignment submitted!")
     }
 
-    let submitButton = checkAssignmentSubmit()
+    function test(){
+        console.log("entered")
+    }
 
-
-})
