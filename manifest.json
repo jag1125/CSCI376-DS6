@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Procrastination Pet",
+    "name": "Productivity Pet",
     "description": "A pet that grows the more you get done!",
     "version": "1.0",
     "permissions": ["storage"],

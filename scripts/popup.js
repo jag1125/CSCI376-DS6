@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function (){
     chrome.storage.local.get('firstTimeOpened', function (data){
         if(data.firstTimeOpened){
             document.getElementById('firstTimePopup').style.display = 'none';
+        } else {
+            chrome.storage.local.set({numTasksCompleted: 0});
         }
     });
     document.getElementById('closePopup').addEventListener('click', function (){
@@ -29,13 +31,23 @@ document.addEventListener('DOMContentLoaded', function (){
                 document.getElementById('name').textContent = "My pet's name is " + petName;
             });
         }
-        chrome.storage.local.set({numTasksCompleted: 0});
     });
     
     chrome.storage.local.get('numTasksCompleted', function (data){
-        if(data.numTasksCompleted){
-            document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        //if(data.numTasksCompleted){
+            document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
+            console.log("start: " + data.numTasksCompleted);
+        //}
+    });
+
+    chrome.storage.local.get('todotasks', function (data) {
+        const array = data.todotasks;
+        if (array) {
+            for (i = 0; i < array.length; i++) {
+                addTask(array[i], true);
+            }
         }
+        addTask("Click to add task", false);
     });
 
     // to-do list data
@@ -64,49 +76,38 @@ function openPage(evt, pageName){
 }
 
 
-// TO-DO LIST FUNCTIONALITY
-// functions for first task
-const firstchk = document.getElementById('firstchk');
-firstchk.addEventListener('click', function() {
-    numChecked();
-    firstchk.parentNode.classList.add('hide');
-});
+const tasks = [];
 
 function numChecked() {
-    var text = document.getElementById("ToDoList");
-    var numCompleted = document.querySelectorAll('input[type="checkbox"]:checked').length;
     chrome.storage.local.get('numTasksCompleted', function (data){
+        //console.log("fire 1");
         //if(data.numTasksCompleted){
+            //console.log("fire 2");
+            //console.log(data.numTasksCompleted);
             chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted})
-            document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+            .then(() => document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted)
+            //.then(console.log(data.numTasksCompleted));
         //}
     });
-    const tracker = text.querySelector('.tracker');
-    tracker.textContent = `Tasks Completed: ${numCompleted}`;
+
+        // try {
+        //   const num = await chrome.storage.local.get('numTasksCompleted');
+        //   num.toString = function () { return num };
+        //   console.log(num.toString);
+        //   await chrome.storage.local.set({numTasksCompleted: num + 1});
+        //   const num2 = await chrome.storage.local.get('numTasksCompleted');
+        //   num2.toString = function () { return num2 };
+        //   console.log(num2)
+        //   num.toString = function () { return numTasksCompleted };
+        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        //   document.getElementById('savedata').textContent = "Tasks Completed: " + data.numTasksCompleted;
+        // } catch(error) {
+        //   console.log(error);
+        // }
 }
 
-var first = document.getElementById("first");
-first.addEventListener('focus', () => {
-    document.getElementById("firstchk").disabled = false;
-    first.classList.add('edited');
-    first.classList.remove('editable');
-    addTask();
-}, { once: true });
-
-// close button
-const xButton = document.getElementById("x");
-first.addEventListener('focus', () => {
-    xButton.style = "display: inline-block";
-});
-first.addEventListener('blur', () => {
-    xButton.style = "display: none";
-});
-xButton.addEventListener('mousedown', () => {
-    xButton.parentNode.classList.add('hide');
-});
-
 // sets up a new task and adds event listeners to the new content
-function addTask() {
+function addTask(words, edited) {
     var container = document.getElementById('listoutside');
 
     var div = document.createElement('div');
@@ -116,22 +117,33 @@ function addTask() {
     var chk = document.createElement("input"); 
     chk.setAttribute('type', 'checkbox');
     chk.setAttribute('class', 'form-check-input')
-    chk.setAttribute('disabled', true);
-    chk.addEventListener('click', function() {
-        numChecked();
-        div.classList.add('hide');
-    });
+    if (!edited) {
+        chk.setAttribute('disabled', true);
+    }
   
     var txt = document.createElement("p");
-    txt.setAttribute('class', 'editable textbox');
+    if (edited) {
+        txt.setAttribute('class', 'textbox edited');
+    } else {
+        txt.setAttribute('class', 'textbox editable');
+    }
     txt.setAttribute('contenteditable', 'true');
-    txt.textContent = "Click to add task";
-    txt.addEventListener('focus', () => {
-        chk.disabled = false;
-        txt.classList.add('edited');
-        txt.classList.remove('editable');
-        addTask();
-    }, { once: true });
+    txt.textContent = words;
+    if (!edited) {
+        txt.addEventListener('focus', () => {
+            chk.disabled = false;
+            txt.classList.add('edited');
+            txt.classList.remove('editable');
+            addTask("Click to add task", false);
+        }, { once: true });
+    }
+
+    chk.addEventListener('click', function() {
+        numChecked();
+        txt.classList.add('hide');
+        div.classList.add('hide');
+        updateTasks();
+    });
 
     var x = document.createElement("button");
     x.setAttribute('class', 'btn-close');
@@ -141,12 +153,33 @@ function addTask() {
     });
     txt.addEventListener('blur', () => {
         x.style = "display: none";
+        updateTasks();
     });
     x.addEventListener('mousedown', () => {
+        txt.classList.add('hide');
         div.classList.add('hide');
+        updateTasks();
     });
 
     div.appendChild(chk);
     div.appendChild(txt);
     div.appendChild(x);
+}
+
+function updateTasks() {
+    const allTasks = document.querySelectorAll(".edited");
+    tasks.length = 0;
+    allTasks.forEach(task => {
+        if (!(task.classList.contains("hide"))) {
+            tasks.push(task.textContent);
+        }
+    });
+
+    chrome.storage.local.set({todotasks: tasks}, function () {
+        console.log("fire")
+        chrome.storage.local.get('todotasks', function (data) {
+            console.log("in storage:");
+            console.log(data.todotasks);
+        });
+    });
 }
