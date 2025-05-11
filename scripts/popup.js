@@ -183,3 +183,12 @@ function updateTasks() {
         });
     });
 }
+
+document.getElementById("infobutton").addEventListener('click', function (){
+    const popup = document.getElementById('firstTimePopup');
+    if (popup.style.display === "none") {
+        popup.style.display = "block";
+      } else {
+        popup.style.display = "none";
+      }
+});
