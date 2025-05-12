@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', function (){
             document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
             console.log("start: " + data.numTasksCompleted);
             if (data.numTasksCompleted < 5){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 10.png';
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
             } else if (data.numTasksCompleted < 10){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 7.png';
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
             } else if (data.numTasksCompleted < 15){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 8.png';
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png';
             }else {
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
             }
 
         } else {
@@ -94,13 +94,13 @@ function numChecked() {
             chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted}, function () {
                 document.getElementById('addTask').textContent = "Tasks Completed: " + (1 + data.numTasksCompleted);
                 if (data.numTasksCompleted < 5){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 10.png';
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
                 } else if (data.numTasksCompleted < 10){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 7.png';
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
                 } else if (data.numTasksCompleted < 15){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 8.png';
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png'
                 }else{
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
                 }
             });
     });
