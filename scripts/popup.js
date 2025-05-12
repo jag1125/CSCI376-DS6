@@ -40,30 +40,22 @@ document.addEventListener('DOMContentLoaded', function (){
         if(data.numTasksCompleted){
             document.getElementById('addTask').textContent = "Tasks Completed: " + data.numTasksCompleted;
             console.log("start: " + data.numTasksCompleted);
-            if (data.numTasksCompleted < 5){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 10.png';
-            } else if (data.numTasksCompleted < 10){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 7.png';
-            } else if (data.numTasksCompleted < 15){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 8.png';
-            }else {
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
-            }
-
-            if (data.numTasksCompleted < 5){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
-            } else if (data.numTasksCompleted < 10){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
-            } else if (data.numTasksCompleted < 15){
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png';
-            }else {
-                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
-            }
-
         } else {
             chrome.storage.local.set({numTasksCompleted: 0});
             document.getElementById('addTask').textContent = "Tasks Completed: 0";
         }
+        updateNumTasks();
+    });
+
+    // setting number of canvas assignments
+    chrome.storage.local.get('numCanvas', function (data) {
+        if (data.numCanvas) {
+            document.getElementById('canvas').textContent = "Canvas Assignments Submitted: " + data.numCanvas;
+        } else {
+            chrome.storage.local.set({numCanvas: 0});
+            document.getElementById('canvas').textContent = "Canvas Assignments Submitted: 0";
+        }
+        updateNumTasks();
     });
 
     // loading in tasks
@@ -76,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function (){
         }
         addTask("Click to add task", false);
     });
+
+    // canvas functionality
     document.getElementById('canvasStartButton').addEventListener('click', () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (!tabs[0]) return;
@@ -91,7 +85,13 @@ document.addEventListener('DOMContentLoaded', function (){
               }
       
               if (response && response.result === 'Submit check is visible') {
-                output.textContent = 'You submitted this assignment!: ';
+                output.textContent = 'You submitted this assignment! ';
+                chrome.storage.local.get('numCanvas', function (data){
+                    chrome.storage.local.set({numCanvas: 1 + data.numCanvas}, function () {
+                        document.getElementById('canvas').textContent = "Canvas Assignments Submitted: " + (1 + data.numCanvas);
+                        updateNumTasks();
+                    });
+                });
               } else {
                 output.textContent = 'Invalid use of button.';
               }
@@ -125,27 +125,10 @@ const tasks = [];
 // counts number of completed tasks
 function numChecked() {
     chrome.storage.local.get('numTasksCompleted', function (data){
-            chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted}, function () {
-                document.getElementById('addTask').textContent = "Tasks Completed: " + (1 + data.numTasksCompleted);
-                if (data.numTasksCompleted < 5){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 10.png';
-                } else if (data.numTasksCompleted < 10){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 7.png';
-                } else if (data.numTasksCompleted < 15){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 8.png';
-                }else{
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
-                }
-                if (data.numTasksCompleted < 5){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
-                } else if (data.numTasksCompleted < 10){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
-                } else if (data.numTasksCompleted < 15){
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png'
-                }else{
-                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
-                }
-            });
+        chrome.storage.local.set({numTasksCompleted: 1 + data.numTasksCompleted}, function () {
+            document.getElementById('addTask').textContent = "Tasks Completed: " + (1 + data.numTasksCompleted);
+            updateNumTasks();
+        });
     });
 }
 
@@ -236,8 +219,31 @@ document.getElementById("infobutton").addEventListener('click', function (){
 //reset task count button
 document.getElementById('reset').addEventListener('click', function(){
     chrome.storage.local.set({numTasksCompleted:-1});
+    chrome.storage.local.set({numCanvas: 0});
+    document.getElementById('canvas').textContent = "Canvas Assignments Submitted: 0";
     numChecked();
 })
+
+// set the "number of tasks left" field
+function updateNumTasks() {
+    chrome.storage.local.get('numTasksCompleted', function (data){
+        chrome.storage.local.get('numCanvas', function (data2) {
+            var total = data.numTasksCompleted + data2.numCanvas;
+            console.log("total: " + total);
+            document.getElementById('taskcount').textContent = "Complete " + (5 - (total % 5)) + " more tasks to grow!";
+            if (total < 5){
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
+            } else if (total < 10){
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
+            } else if (total < 15){
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png';
+            }else {
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
+                document.getElementById('taskcount').textContent = "Your Wuggy is all grown up!";
+            }
+        });
+    });
+}
 
 
 // helpful for debugging
