@@ -78,23 +78,18 @@ document.addEventListener('DOMContentLoaded', function (){
             tabs[0].id,
             { action: 'checkCanvasSubmitted' },
             (response) => {
-              const output = document.getElementById('output');
               if (chrome.runtime.lastError) {
-                output.textContent = 'Error: ' + chrome.runtime.lastError.message;
                 return;
               }
       
               if (response && response.result === 'Submit check is visible') {
-                output.textContent = 'You submitted this assignment! ';
                 chrome.storage.local.get('numCanvas', function (data){
                     chrome.storage.local.set({numCanvas: 1 + data.numCanvas}, function () {
                         document.getElementById('canvas').textContent = "Canvas Assignments Submitted: " + (1 + data.numCanvas);
                         updateNumTasks();
                     });
                 });
-              } else {
-                output.textContent = 'Invalid use of button.';
-              }
+              } 
             }
           );
         });
