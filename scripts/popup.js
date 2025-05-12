@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function (){
     // setting pet name
     chrome.storage.local.get('petName', function (data){
         if(data.petName){
-            document.getElementById('name').textContent = "My Wuggy's name is " + data.petName;
+            document.getElementById('name').textContent = "Your Wuggy's name is " + data.petName;
         }
     });
     document.getElementById('enterName').addEventListener('click', function (){
         const petName = document.getElementById('petNameInput').value.trim();
         if(petName){
             chrome.storage.local.set({petName: petName}, function(){
-                document.getElementById('name').textContent = "My Wuggy's name is " + petName;
+                document.getElementById('name').textContent = "Your Wuggy's name is " + petName;
             });
         }
     });

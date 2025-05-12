@@ -7,8 +7,8 @@
 <p style = "font-family: 'Gill Sans'; margin-top: 50px; margin-left: 40px;position: absolute">Grow your pet by completing tasks!</p>
 <body>
     <div id="firstTimePopup" name="firstTimeOpened" style=" margin-top: 90px" >
-        <h3 style = "text-align: center; font-family: 'Gill Sans'; font-size: 20; margin-top: 15px;">Welcome to Wuggy: The Productivity Pet!</h3>
-        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 14; margin: 2px">Complete tasks in Canvas or your in-app to-do list,
+        <h3 style = "text-align: center; font-family: 'Gill Sans'; font-size: 20; margin-top: 20px;">Welcome to Wuggy: The Productivity Pet!</h3>
+        <p style="text-align: center; font-family: 'Gill Sans'; font-size: 14; margin: 2px">Feed your pet submitted assignments in Canvas or tasks in your in-app to-do list,
             and watch in real time as your pet grows as a result of your productivity!
         </p>
         <input type="text" id="petNameInput" name="petName" placeholder="What's your pet's name?"></input>
@@ -24,7 +24,7 @@
     </div>
     <div id="Home" class="tabcontent">
         <div id="statbox" >
-            <div id="name" style = "text-align: center; font-family:'Gill Sans'" > My Wuggy's name is </div>
+            <div id="name" style = "text-align: center; font-family:'Gill Sans'" >Your Wuggy's name is </div>
             <div id="taskcount" style = "text-align: center; font-family:'Gill Sans'" > Complete __ more tasks to grow!</div>
             <button id="reset" style = "border-radius: 4px; background-color: #5DA85A; border: none; font-family: 'Gill Sans'; margin: 10px">Reset Task Count</button>
         </div>
@@ -36,7 +36,8 @@
         <p class="tracker" id="addTask">num tasks</p>
     </div>
     <div id="Customize" class="tabcontent">
-        <button id="canvasStartButton" style = "border-radius: 4px; background-color: #5DA85A; border: none; font-family: 'Gill Sans'; margin: 10px">Check for Submitted Assignment</button>
+        <p style="text-align: center; font-family: 'Gill Sans'; margin-right: 5px; margin-left: 5px;">Once you've submitted an assignment in Canvas, stay on the assignment page and click the button below to help grow your Wuggy!</p>
+        <button id="canvasStartButton" style = "border-radius: 4px; background-color: #5DA85A; border: none; font-family: 'Gill Sans'; margin-left: 10px; margin-right: 10px; margin-top: 3px;">Check for Submitted Assignment</button>
         <p id="canvas">num canvas</p>
     </div>
 </body>
@@ -122,12 +123,14 @@
         text-align: left;
         font-style: italic;
         color: gray;
+        font-family: 'Gill Sans';
     }
 
     .edited{
         text-align: left;
         font-style: normal;
         color: black;
+        font-family: 'Gill Sans';
     }
 
     h2{
@@ -150,20 +153,21 @@
         margin-left: 10px;
         margin-top: 15px;
         margin-bottom: 10px;
+        font-family: 'Gill Sans';
     }
 
     #canvas{
         position: relative;
         text-align: left;
-        top: 20;
         left: 10;
         margin-left: 10px;
         margin-bottom: 10px;
         margin-top: 10px;
+        font-family: 'Gill Sans';
     }
 
     #statbox{
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     #closePopup{
@@ -179,11 +183,11 @@
     #reset{
         position: absolute;
         left: 75;
+        top: 500;
     }
 
     #canvasStartButton{
         position: relative;
-        top: 20;
         left: 25;
     }
     
