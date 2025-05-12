@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function (){
     // setting pet name
     chrome.storage.local.get('petName', function (data){
         if(data.petName){
-            document.getElementById('name').textContent = "My pet's name is " + data.petName;
+            document.getElementById('name').textContent = "My Wuggy's name is " + data.petName;
         }
     });
     document.getElementById('enterName').addEventListener('click', function (){
         const petName = document.getElementById('petNameInput').value.trim();
         if(petName){
             chrome.storage.local.set({petName: petName}, function(){
-                document.getElementById('name').textContent = "My pet's name is " + petName;
+                document.getElementById('name').textContent = "My Wuggy's name is " + petName;
             });
         }
     });
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function (){
         }
         addTask("Click to add task", false);
     });
-    
+
     document.getElementById('canvasStartButton').addEventListener('click', () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (!tabs[0]) return;
