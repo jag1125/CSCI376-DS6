@@ -234,6 +234,11 @@ document.getElementById("infobutton").addEventListener('click', function (){
         popup.style.display = "none";
       }
 });
+//reset task count button
+document.getElementById('reset').addEventListener('click', function(){
+    chrome.storage.local.set({numTasksCompleted:-1});
+    numChecked();
+})
 
 
 // helpful for debugging
