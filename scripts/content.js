@@ -1,32 +1,19 @@
-
-    function canvasAssignmentStatus(){
-        let submitButton = null
-        if (window.location.pathname.includes("/assignments/")){
-                function checkAssignmentSubmit(){
-                    const tempButton = document.getElementById("submit_assignment")
-                    if(!tempButton){
-                        return null
-                    }
-                    return tempButton
-                }
-
-                submitButton = checkAssignmentSubmit()
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'checkCanvasSubmitted') {
+      let result = 'Not on an assignment page.';
+  
+      if (window.location.pathname.includes("/assignments/")) {
+        const submitButton = (document.getElementsByClassName("icon-check"))[0];
+  
+        if (submitButton) {
+          const isVisible = submitButton.offsetParent !== null;
+          result = isVisible ? 'Submit check is visible' : 'Submit check is hidden';
+        } else {
+          result = 'Submit check not found';
         }
-        return submitButton
+      }
+  
+      sendResponse({ result });
+      return true;
     }
-    
-    function canvasRewardStart(){
-        let assignmentButton = canvasAssignmentStatus()
-        console.log(assignmentButton)
-
-        while (canvasAssignmentStatus().checkVisibility){
-            console.log("Waiting for user to submit")
-        }
-
-        console.log("Assignment submitted!")
-    }
-
-    function test(){
-        console.log("entered")
-    }
-
+  });
