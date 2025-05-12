@@ -50,6 +50,16 @@ document.addEventListener('DOMContentLoaded', function (){
                 document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
             }
 
+            if (data.numTasksCompleted < 5){
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
+            } else if (data.numTasksCompleted < 10){
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
+            } else if (data.numTasksCompleted < 15){
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png';
+            }else {
+                document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
+            }
+
         } else {
             chrome.storage.local.set({numTasksCompleted: 0});
             document.getElementById('addTask').textContent = "Tasks Completed: 0";
@@ -66,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function (){
         }
         addTask("Click to add task", false);
     });
-
     document.getElementById('canvasStartButton').addEventListener('click', () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (!tabs[0]) return;
@@ -126,6 +135,15 @@ function numChecked() {
                     document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 8.png';
                 }else{
                     document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork 9.png';
+                }
+                if (data.numTasksCompleted < 5){
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_10-removebg-preview.png';
+                } else if (data.numTasksCompleted < 10){
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_7-removebg-preview.png';
+                } else if (data.numTasksCompleted < 15){
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_8-removebg-preview.png'
+                }else{
+                    document.getElementById('pet').src = 'img/wuggy/Untitled_Artwork_9-removebg-preview.png';
                 }
             });
     });
