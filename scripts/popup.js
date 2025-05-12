@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function (){
         }
         addTask("Click to add task", false);
     });
+    
     document.getElementById('canvasStartButton').addEventListener('click', () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (!tabs[0]) return;
