@@ -32,7 +32,10 @@
     </div>
     <div id="ToDoList" class="tabcontent">
         <div id="listoutside">
+            <div id="listinside"></div>
+            <div id="completedtasks" style="display:none"></div>
         </div>
+        <button id="completed">Show Completed Tasks</button>
         <p class="tracker" id="addTask">num tasks</p>
     </div>
     <div id="Customize" class="tabcontent">
@@ -144,14 +147,14 @@
     #listoutside{
         margin-top: 10px;
         width: 300px;
-        height: 120px;
+        height: 100px;
         overflow: scroll;
     }
 
     #addTask{
         text-align: left;
         margin-left: 10px;
-        margin-top: 15px;
+        margin-top: 7px;
         margin-bottom: 10px;
         font-family: 'Gill Sans';
     }
@@ -189,6 +192,27 @@
     #canvasStartButton{
         position: relative;
         left: 25;
+    }
+
+    .checkedOff{
+        text-align: left;
+        font-family: 'Gill Sans';
+    }
+
+    .compTaskTitle{
+        text-align: left;
+        margin-left: 6px;
+        font-family: 'Gill Sans';
+    }
+
+    #completed{
+        border: none;
+        background-color: #5DA85A;
+        border-radius: 4px;
+        font-family: 'Gill Sans';
+        margin-top: 11px;
+        margin-left: 10px;
+        width: 165px;
     }
     
 </style>

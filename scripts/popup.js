@@ -1,3 +1,8 @@
+// list of tasks
+const tasks = [];
+const completedTasks = [];
+
+// load DOM content
 document.addEventListener('DOMContentLoaded', function (){
     // tab controls
     const tablinks = document.querySelectorAll('.tablinks');
@@ -69,6 +74,16 @@ document.addEventListener('DOMContentLoaded', function (){
         addTask("Click to add task", false);
     });
 
+    // loading in completed tasks
+    chrome.storage.local.get('comptasks', function (data) {
+        const array = data.comptasks;
+        console.log(array);
+        for (i = 0; i < array.length; i++){
+            console.log(array[i]);
+            completedTasks.push(array[i]);
+        }
+    });
+
     // canvas functionality
     document.getElementById('canvasStartButton').addEventListener('click', () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -113,10 +128,6 @@ function openPage(evt, pageName){
     
 }
 
-
-// list of tasks
-const tasks = [];
-
 // counts number of completed tasks
 function numChecked() {
     chrome.storage.local.get('numTasksCompleted', function (data){
@@ -129,7 +140,7 @@ function numChecked() {
 
 // sets up a new task and adds event listeners to the new content
 function addTask(words, edited) {
-    var container = document.getElementById('listoutside');
+    var container = document.getElementById('listinside');
 
     var div = document.createElement('div');
     div.setAttribute('class', 'form-check input-group-addon chkbox');
@@ -161,6 +172,8 @@ function addTask(words, edited) {
 
     chk.addEventListener('click', function() {
         numChecked();
+        completedTasks.push(txt.textContent);
+        updateCompTasks();
         txt.classList.add('hide');
         div.classList.add('hide');
         updateTasks();
@@ -207,9 +220,9 @@ document.getElementById("infobutton").addEventListener('click', function (){
     const popup = document.getElementById('firstTimePopup');
     if (popup.style.display === "none") {
         popup.style.display = "block";
-      } else {
+    } else {
         popup.style.display = "none";
-      }
+    }
 });
 //reset task count button
 document.getElementById('reset').addEventListener('click', function(){
@@ -217,6 +230,8 @@ document.getElementById('reset').addEventListener('click', function(){
     chrome.storage.local.set({numCanvas: 0});
     document.getElementById('canvas').textContent = "Canvas Assignments Submitted: 0";
     numChecked();
+    completedTasks.length = 0;
+    updateCompTasks();
 })
 
 // set the "number of tasks left" field
@@ -240,6 +255,61 @@ function updateNumTasks() {
     });
 }
 
+function updateCompTasks() {
+    chrome.storage.local.set({comptasks: completedTasks}, function() {
+        if (document.getElementById('completedtasks').style.display === "block"){
+            displayCompTasks();
+        }
+    });
+}
+
+function displayCompTasks() {
+    var container = document.getElementById('completedtasks');
+    container.innerHTML = "";
+    var title = document.createElement('div');
+    title.setAttribute('class', 'compTaskTitle');
+    title.textContent = "Completed Tasks:";
+    container.appendChild(title);
+    if (completedTasks.length === 0){
+        var n = document.createElement('div');
+        n.setAttribute('class', 'compTaskTitle');
+        n.style.marginLeft = "30px";
+        n.textContent = "None";
+        container.appendChild(n);
+    }
+    for (const task of completedTasks) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'form-check input-group-addon chkbox');
+        container.appendChild(div);
+
+        var chk = document.createElement("input");
+        chk.setAttribute('type', 'checkbox');
+        chk.setAttribute('class', 'form-check-input');
+        chk.setAttribute('checked', true);
+        chk.setAttribute('disabled', true);
+
+        var txt = document.createElement("p");
+        txt.textContent = task;
+        txt.setAttribute('class', 'checkedOff');
+
+        div.appendChild(chk);
+        div.appendChild(txt);
+    }
+}
+
+// button to see completed tasks
+document.getElementById("completed").addEventListener('click', function(){
+    var container = document.getElementById('completedtasks');
+    document.getElementById("completed").textContent = "Hide Completed Tasks";
+    if (container.style.display === "none") {
+        container.style.display = "block";
+        displayCompTasks();
+    } else {
+        document.getElementById("completed").textContent = "Show Completed Tasks";
+        container.style.display = "none";
+        container.innerHTML = "";
+    }
+})
 
 // helpful for debugging
 chrome.storage.onChanged.addListener((changes, namespace) => {
